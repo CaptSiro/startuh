@@ -2,7 +2,6 @@
 
 namespace components\pages\AiGeneratedPage;
 
-use components\ai\AiRequest;
 use components\ai\InputMessage;
 use components\ai\PageGeneration\PageGeneration;
 use components\ai\Schema\ObjectSchema;
@@ -14,6 +13,7 @@ use components\core\Admin\Nexus\Editor\EditorBehaviorAction;
 use components\layout\Accordion\Accordion;
 use components\layout\Column\Column;
 use components\layout\Layout;
+use core\ai\clients\OpenAi;
 use core\App;
 use core\database\sql\Model;
 use core\forms\Form;
@@ -23,7 +23,6 @@ use core\sideloader\importers\Javascript\Javascript;
 use core\view\View;
 use models\core\Page\AiPage;
 use models\core\Page\Page;
-use modules\ai\OpenAi;
 use RuntimeException;
 
 class AiPageEditorBehavior implements EditorBehavior {
@@ -53,8 +52,6 @@ class AiPageEditorBehavior implements EditorBehavior {
 
     public function initForm(Form $form, ?Model $model): ?View {
         Javascript::import($this->getResource('ai-page-generator.js'));
-        $form->setOnSubmitSuccess('aiPageGenerator_success');
-        $form->setOnSubmitFailure('aiPageGenerator_failure');
         return $this->behavior->initForm($form, $model);
     }
 
@@ -79,14 +76,13 @@ class AiPageEditorBehavior implements EditorBehavior {
             throw new RuntimeException($this->tr("Provided model must be type of Page"));
         }
 
-        $aiPage = AiPage::fromPage($model);
+        $aiPage = AiPage::fromPage($model, true);
         $samePrompt = !is_null($aiPage)
             && $aiPage->prompt === $body->get(self::NAME_PROMPT);
 
         if ($action === EditorBehaviorAction::UPDATE && !$samePrompt) {
             $client = OpenAi::fromEnv();
-
-            $request = new AiRequest('gpt-4o-mini');
+            $request = $client->createRequest();
 
             $schema = new Schema(
                 'webpage_generation',

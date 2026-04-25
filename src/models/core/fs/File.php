@@ -303,7 +303,7 @@ class File extends Model implements FileSystemEntry, Destination {
         string $fileServerMountAlias = RouteChasmEnvironment::MOUNT_FILE_SERVER
     ): Url {
         $url = $this->getUrlToModel($fileServerMountAlias);
-        
+
         if (is_null($transformer)) {
             return $url;
         }

@@ -15,11 +15,19 @@ $this->loadWidgets($this->getResource('widgets'));
 
 ?><div class="widgets">
     <div class="container">
-        <?php if (!is_null($adminUrl = Admin::getUrl())): ?>
-            <a href="<?= $adminUrl ?>">
-                <?= $this->tr('Admin') ?>
-            </a>
-        <?php endif; ?>
+        <div class="row">
+            <?php if (!is_null($projectUrl = $this->getProjectUrl())): ?>
+                <a href="<?= $projectUrl ?>">
+                    <?= $this->getProjectName() ?>
+                </a>
+            <?php endif; ?>
+
+            <?php if (!is_null($adminUrl = Admin::getUrl())): ?>
+                <a href="<?= $adminUrl ?>">
+                    <?= $this->tr('Admin') ?>
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
 
     <div class="handle">

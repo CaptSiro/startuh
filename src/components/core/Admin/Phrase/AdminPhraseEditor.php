@@ -3,6 +3,7 @@
 namespace components\core\Admin\Phrase;
 
 use components\core\Admin\Nexus\Editor\AdminNexusEditor;
+use core\ai\clients\OpenAi;
 use core\App;
 use core\communication\Request;
 use core\communication\Response;
@@ -14,7 +15,6 @@ use core\url\Url;
 use models\core\Language\Lexicon\Phrase;
 use models\core\Language\Lexicon\PhraseEditorBehavior;
 use models\core\Language\Lexicon\Translation;
-use modules\ai\OpenAi;
 
 class AdminPhraseEditor extends AdminNexusEditor {
     public const LEXICON_GROUP = 'admin.phrase.editor';
@@ -59,7 +59,7 @@ class AdminPhraseEditor extends AdminNexusEditor {
 
             $client = OpenAi::fromEnv();
             $result = $client->chat(
-                AdminPhraseAiTranslator::createRequest($phrase)
+                AdminPhraseAiTranslator::createRequest($client, $phrase)
             );
 
             $translations = AdminPhraseAiTranslator::parseTranslations($phrase, $result);

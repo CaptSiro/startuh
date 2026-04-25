@@ -2,6 +2,7 @@
 
 namespace core\database\sql;
 
+use core\database\sql\query\Parameter;
 use core\database\sql\query\Query;
 use core\database\sql\query\SelectQuery;
 use core\database\sql\query\SqlQuery;
@@ -149,12 +150,14 @@ class ModelFactory {
     }
 
     public function fromIdQuery(mixed $id, ?array $projection = null): SelectQuery {
-        $idColumnName = $this->getDescription()
-            ->getEscapedIdColumnName();
+        $description = $this->getDescription();
+        $idColumnName = $description->getEscapedIdColumnName();
 
         return $this->firstQuery(
             $projection,
-            where: Query::infer("$idColumnName = ?", $id)
+            where: new Query("$idColumnName = ?", [
+                new Parameter($id, $description->getIdColumn()->getType())
+            ])
         );
     }
 

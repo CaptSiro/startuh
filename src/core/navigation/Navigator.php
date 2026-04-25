@@ -70,7 +70,6 @@ class Navigator extends Router {
         $slug = null;
         $contextId = NavigationContext::getContextId($context);
         $parentId = null;
-        $last = $path->getDepth() - 1;
 
         foreach ($path as $segment) {
             $slug = Slug::fromSlug($language, $contextId, $segment, $parentId);

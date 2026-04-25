@@ -260,8 +260,9 @@ class FileSystem {
         $nexus
             ->setUserResource(UserResource::getSystemResource(RouteChasmEnvironment::USER_RESOURCE_FILE_SYSTEM))
             ->showCreateButton(false)
-            ->setHeaderContent(new AdminFileSystemCreateDirectory($directory))
-            ->setBreadCrumbs(static::generateBreadCrumbs(
+            ->setTitle("&nbsp;")
+            ->setTemplateSlot(AdminNexus::SLOT_HEADER_ITEM, new AdminFileSystemCreateDirectory($directory))
+            ->setTemplateSlot(AdminNexus::SLOT_BREAD_CRUMBS, static::generateBreadCrumbs(
                 $directory,
                 fn(Directory $x) => self::getBreadCrumbUrl($x)
             ));
@@ -333,10 +334,13 @@ class FileSystem {
             ->showCreateButton(false)
             ->doAddGridControls(false)
             ->setTitle($directory->name)
-            ->setBreadCrumbs($breadCrumbs);
+            ->setTemplateSlot(AdminNexus::SLOT_BREAD_CRUMBS, $breadCrumbs);
 
         if (!$readonly) {
-            $nexus->setHeaderContent(new AdminFileSystemCreateDirectory($directory));
+            $nexus->setTemplateSlot(
+                AdminNexus::SLOT_BREAD_CRUMBS,
+                new AdminFileSystemCreateDirectory($directory)
+            );
         }
 
         return $nexus;

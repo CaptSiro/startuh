@@ -174,7 +174,7 @@ class App implements Loader {
 
     protected function loadLocales(): void {
         foreach (glob(__DIR__. '/../modules/locales/*.php') as $locale) {
-            [$class, $_] = explode('.', basename($locale), 2);
+            [$class] = explode('.', basename($locale), 2);
             $reflection = new ReflectionClass("\\modules\\locales\\$class");
 
             if ($reflection->isSubclassOf(Locale::class) && !$reflection->isAbstract()) {

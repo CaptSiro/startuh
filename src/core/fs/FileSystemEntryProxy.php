@@ -11,7 +11,6 @@ use core\fs\variants\ImageVariant;
 use core\ResourceLoader;
 use core\sideloader\importers\Css\Css;
 use core\sideloader\importers\Javascript\Javascript;
-use core\utils\Strings;
 use models\core\fs\Directory;
 use models\core\fs\File;
 
@@ -94,7 +93,6 @@ class FileSystemEntryProxy extends NexusProxy {
 
         $rename = $this->item->createRenameEntryUrl();
         $id = $this->item->id;
-        $type = Html::escapeAttribute($this->item::class);
         $content = Icon::edit();
 
         return "<button class='link no-decoration' x-init='fs_renameButton_init' data-url='$rename' data-id='$id'>$content</button>";
@@ -107,7 +105,6 @@ class FileSystemEntryProxy extends NexusProxy {
 
         $delete = $this->item->createDeleteEntryUrl();
         $id = $this->item->id;
-        $type = Html::escapeAttribute($this->item::class);
         $content = Icon::delete();
         return "<button class='link no-decoration' x-init='fs_deleteButton_init' data-url='$delete' data-id='$id'>$content</button>";
     }

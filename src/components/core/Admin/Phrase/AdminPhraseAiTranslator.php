@@ -2,10 +2,11 @@
 
 namespace components\core\Admin\Phrase;
 
-use components\ai\AiRequest;
 use components\ai\DynamicTranslation\DynamicTranslation;
 use components\ai\InputMessage;
 use components\ai\StaticTranslation\StaticTranslation;
+use core\ai\Client;
+use core\ai\clients\OpenAi;
 use core\App;
 use core\ResourceLoader;
 use core\utils\Strings;
@@ -23,16 +24,16 @@ class AdminPhraseAiTranslator implements View {
 
 
 
-    public static function createRequest(Phrase $phrase): View {
+    public static function createRequest(Client $client, Phrase $phrase): View {
         return $phrase->isDynamic
-            ? self::createDynamicRequest($phrase)
-            : self::createStaticRequest($phrase);
+            ? self::createDynamicRequest($client, $phrase)
+            : self::createStaticRequest($client, $phrase);
     }
 
-    public static function createStaticRequest(Phrase $phrase): View {
-        $request = new AiRequest(self::AI_MODEL);
+    public static function createStaticRequest(Client $client, Phrase $phrase): View {
+        $request = $client->createRequest();
 
-        $request->set('text', ["format" => ["type" => "json_object"]]);
+        OpenAi::addGenericJsonFormat($request);
 
         $request->add(new StaticTranslation(InputMessage::ROLE_SYSTEM, $phrase));
         $request->add(new StaticTranslation(InputMessage::ROLE_USER, $phrase));
@@ -40,10 +41,10 @@ class AdminPhraseAiTranslator implements View {
         return $request;
     }
 
-    public static function createDynamicRequest(Phrase $phrase): View {
-        $request = new AiRequest(self::AI_MODEL);
+    public static function createDynamicRequest(Client $client, Phrase $phrase): View {
+        $request = $client->createRequest();
 
-        $request->set('text', ["format" => ["type" => "json_object"]]);
+        OpenAi::addGenericJsonFormat($request);
 
         $request->add(new DynamicTranslation(InputMessage::ROLE_SYSTEM, $phrase));
         $request->add(new DynamicTranslation(InputMessage::ROLE_USER, $phrase));

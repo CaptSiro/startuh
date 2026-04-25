@@ -30,9 +30,7 @@ class RouteTree implements Graph {
         /** @var array<TreeVertex<RouteNode, RouteSegment>> $terminal */
         $terminal = [];
 
-        $maxDepth = $path->getDepth() - 1;
-
-        foreach ($path->getSegments() as $i => $segment) {
+        foreach ($path->getSegments() as $segment) {
             if (empty($layer)) {
                 break;
             }

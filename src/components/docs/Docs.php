@@ -2,7 +2,6 @@
 
 namespace components\docs;
 
-use components\ai\AiRequest;
 use components\ai\DocumentGeneration\DocumentGeneration;
 use components\ai\FragmentGeneration\FragmentGeneration;
 use components\ai\InputMessage;
@@ -15,6 +14,8 @@ use components\core\Icon;
 use components\core\Search\SearchResult;
 use components\core\Search\SearchResults;
 use core\actions\Block;
+use core\ai\Client;
+use core\ai\clients\OpenAi;
 use core\App;
 use core\communication\Request;
 use core\communication\Response;
@@ -34,7 +35,6 @@ use models\core\Setting\Setting;
 use models\core\UserResource;
 use models\docs\Document;
 use models\docs\Fragment;
-use modules\ai\OpenAi;
 use const models\extensions\Editable\PROPERTY_EDITABLE;
 
 class Docs extends Router {
@@ -132,8 +132,8 @@ class Docs extends Router {
         return $this->createUrl(Path::from('search'));
     }
 
-    public function requestFragmentGeneration(OpenAi $client, string $file): array {
-        $request = new AiRequest('gpt-4o-mini');
+    public function requestFragmentGeneration(Client $client, string $file): array {
+        $request = $client->createRequest();
 
         $schema = new Schema(
             'fragment_generation',
@@ -154,14 +154,14 @@ class Docs extends Router {
     }
 
     /**
-     * @param OpenAi $client
+     * @param Client $client
      * @param Language $language
      * @param string $file
      * @param array<Fragment> $fragments
      * @return array
      */
-    public function requestDocumentGeneration(OpenAi $client, Language $language, string $file, array $fragments): array {
-        $request = new AiRequest('gpt-4o-mini');
+    public function requestDocumentGeneration(Client $client, Language $language, string $file, array $fragments): array {
+        $request = $client->createRequest();
 
         $schema = new Schema(
             'document_generation',
@@ -180,7 +180,7 @@ class Docs extends Router {
         );
     }
 
-    public function documentFragment(OpenAi $client, string $file, ?array &$dependencies = null): ?Fragment {
+    public function documentFragment(Client $client, string $file, ?array &$dependencies = null): ?Fragment {
         if (empty($fragmentResponse = $this->requestFragmentGeneration($client, $file))) {
             return null;
         }
@@ -203,7 +203,7 @@ class Docs extends Router {
         return $fragment;
     }
 
-    protected function createFragment(OpenAi $client, string $file, mixed &$fragmentResponse = null): ?Fragment {
+    protected function createFragment(Client $client, string $file, mixed &$fragmentResponse = null): ?Fragment {
         $fragment = Fragment::fromName($file) ?? new Fragment();
         $fragment->name = $file;
 
@@ -221,7 +221,7 @@ class Docs extends Router {
 
     protected function generateDocumentation(
         Document $document,
-        OpenAi $client,
+        Client $client,
         Language $language,
         string $file,
         array $fragments
@@ -479,7 +479,7 @@ class Docs extends Router {
                     $file = realpath($file);
                     $language = $request->getLanguage();
 
-                    if (is_null($doc = $this->document($file, $language))) {
+                    if (is_null($this->document($file, $language))) {
                         $response->sendStatus(HttpCode::SE_SERVICE_UNAVAILABLE);
                     }
 

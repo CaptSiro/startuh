@@ -76,7 +76,7 @@ class LexiconGridRow extends Model {
         $group = LexiconGroup::getDescription();
 
         return self::phrasesBaseQuery($connection)
-            ->projection($lexicon_id = $lexicon->getEscapedColumn('id_phrase'))
+            ->projection($lexicon->getEscapedColumn('id_phrase'))
             ->projection($group->getEscapedColumn('name'))
             ->projection($lexicon->getEscapedColumn('default'))
             ->projection('translations');

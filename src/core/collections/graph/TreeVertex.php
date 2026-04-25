@@ -57,7 +57,11 @@ class TreeVertex extends Vertex {
      * @return void
      */
     public function addEdge(Edge $edge): void {
-        $edge->getVertex()->setParentEdge($edge->get(), $this);
+        $target = $edge->getVertex();
+        if ($target instanceof TreeVertex) {
+            $target->setParentEdge($edge->get(), $this);
+        }
+
         parent::addEdge($edge);
     }
 

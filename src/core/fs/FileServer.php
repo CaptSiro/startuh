@@ -3,7 +3,6 @@
 namespace core\fs;
 
 use components\core\fs\FileVariantTransformers;
-use components\core\Message\Message;
 use core\App;
 use core\communication\Request;
 use core\communication\Response;
@@ -313,7 +312,6 @@ class FileServer extends Router {
             Http::delete(function (Request $request, Response $response) {
                 $body = $request->getBody();
                 $id = $body->getStrict('id');
-                $name = $body->getStrict('name');
 
                 if (is_null($directory = Directory::fromId(intval($id)))) {
                     $response->sendMessage(

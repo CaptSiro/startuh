@@ -9,7 +9,6 @@ use core\communication\Format;
 use core\communication\Request;
 use core\communication\UploadedFile;
 use core\data\Data;
-use core\http\HttpCode;
 use core\io\FileReader;
 use core\Singleton;
 use core\utils\Arrays;

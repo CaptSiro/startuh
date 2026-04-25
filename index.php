@@ -1,6 +1,8 @@
 <?php
 
 use components\core\Admin\Home\AdminHome;
+use components\docs\Docs;
+use components\Home\Home;
 use core\actions\Assets\Assets;
 use core\actions\Assets\policy\ShowExplorerPolicy;
 use core\admin\Admin;
@@ -17,6 +19,8 @@ use core\fs\FileSystem;
 use core\http\HttpCode;
 use core\locale\Lexicon;
 use core\mounts\StaticMount;
+use core\navigation\Navigator;
+use core\pages\PageFactory;
 use core\pages\Pages;
 use core\RouteChasmEnvironment;
 use core\sideloader\SideLoader;
@@ -48,15 +52,16 @@ $router->bind(
     AdminRouter::getInstance(new AdminHome())
 );
 
+$router->bind('/docs', Docs::getInstance());
 $router->bind('/fs', FileServer::getInstance());
 $router->bind('/import', SideLoader::getInstance()->initRouter($app));
 $router->expose('/public', (new Assets(__DIR__ .'/public'))
     ->setDirectoryPolicy(new ShowExplorerPolicy()));
 
-$router->use('/', new Frame());
 
 
-
+$router->use('/', new Home());
+$router->use('/extension', new Frame());
 
 $router->use('/random-background', function (Request $request, Response $response) {
     $lexicon = Lexicon::group(Startuh::LEXICON_GROUP);
@@ -120,6 +125,15 @@ $router->use('/random-background', function (Request $request, Response $respons
         "timeSpent" => microtime(true) - $start,
     ]);
 });
+
+
+
+Navigator::register(PageFactory::getInstance());
+
+$router->bind(
+    Navigator::mount(new StaticMount(RouteChasmEnvironment::MOUNT_DEFAULT_CONTEXT), '/'),
+    new Navigator()
+);
 
 
 

@@ -46,7 +46,6 @@ class NexusProxy extends TypeProxy {
             return '';
         }
 
-        $id = (string) $this->item->getId();
         return $this->createEditValue(
             $this->context->getUpdateLink((string) $this->item->getId())
         );

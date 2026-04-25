@@ -39,7 +39,6 @@ class RoutedMenuItem implements MenuItem {
             $label = $edge->getLabel() ?? $source;
 
             if (Route::isDynamic($source)) {
-                $class = self::class;
                 throw new RuntimeException("Route for RoutedMenu cannot be dynamic. The violating segment is '$source'");
             }
 

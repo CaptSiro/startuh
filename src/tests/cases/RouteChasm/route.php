@@ -117,7 +117,6 @@ Sptf::test("should tokenize routes correctly", function () {
 
 Sptf::test("should parse routes", function () {
     $any = ".+";
-    $anyGroup = "$any";
 
     $foo = "foo+";
     $fooGroup = Regex::createNamedGroup("foo", $foo);

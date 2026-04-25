@@ -6,7 +6,7 @@ use core\database\sql\query\SelectQuery;
 
 trait Portion {
     protected function calculateMax(int $portionSize, int $count): int {
-        return $max = intval(ceil($count / $portionSize));
+        return intval(ceil($count / $portionSize));
     }
 
     protected function calculateCurrent(int $portionSize, int $count, int $portion): int {

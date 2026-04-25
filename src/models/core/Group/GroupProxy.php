@@ -17,8 +17,6 @@ class GroupProxy extends NexusProxy {
     }
 
     protected function getEditValue(): string {
-        $id = (string) $this->item->getId();
-
         return $this->createEditValue(
             $this->context->getUpdateLink((string) $this->item->getId())
         );

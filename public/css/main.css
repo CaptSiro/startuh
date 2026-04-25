@@ -1,28 +1,52 @@
 @import "https://www.nerdfonts.com/assets/css/webfont.css";
 
 :root {
-    --container-0: #171717;
-    --container-1: #2e2e2e;
-    --container-2: #454545;
-    --container-3: #5d5d5d;
-    --container-4: #747474;
-    --text-0: #ffffff;
-    --text-1: #e8e8e8;
-    --text-2: #d1d1d1;
-    --accent-0: #9b3427;
-    --accent-1: #b34a32;
-    --accent-2: #c75c38;
-    --accent-3: #d17147;
+    --container-0: #0f1115;
+    --container-1: #171a21;
+    --container-2: #1f2430;
+    --container-3: #2a3140;
+    --container-4: #353d52;
 
-    --success: #0aa25e;
-    --error: #b21351;
+    --text-0: #f5f7fb;
+    --text-1: #d6dbe6;
+    --text-2: #9aa3b2;
+
+    --accent-0: #4f6df5;
+    --accent-1: #6c86ff;
+    --accent-2: #8ea2ff;
+    --accent-3: #b3c0ff;
+
+    --success: #22c55e;
+    --error: #ef4444;
 
     --page-width: 1200px;
-    --border-radius: 8px;
-    --border-radius-smaller: 4px;
+    --border-radius: 12px;
+    --border-radius-smaller: 6px;
     --gap: 16px;
     --gap-smaller: 8px;
     --animation-duration: 250ms;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --container-0: #f6f8fc;
+        --container-1: #eef1f7;
+        --container-2: #e3e8f2;
+        --container-3: #d6ddea;
+        --container-4: #c7d0e0;
+
+        --text-0: #0f172a;
+        --text-1: #334155;
+        --text-2: #64748b;
+
+        --accent-0: #4f6df5;
+        --accent-1: #6c86ff;
+        --accent-2: #8ea2ff;
+        --accent-3: #b3c0ff;
+
+        --success: #22c55e;
+        --error: #ef4444;
+    }
 }
 
 * {

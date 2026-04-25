@@ -8,7 +8,7 @@ trait MountLocation {
     /**
      * @var array<string, Mount>
      */
-    protected static array $routes;
+    protected static array $routes = [];
 
     public static function mount(Mount $mount, Route|string $route): Route {
         $route = Route::resolve($route);
@@ -20,6 +20,6 @@ trait MountLocation {
     }
 
     public static function locate(string $alias): ?Mount {
-        return self::$routes[$alias];
+        return self::$routes[$alias] ?? null;
     }
 }

@@ -127,12 +127,6 @@ class AdminNexusEditor extends ContainerContent implements Editor {
         return $title;
     }
 
-    public function onBind(RouteNode $bindingPoint): void {
-        parent::onBind($bindingPoint);
-
-        $router = $bindingPoint->getRouter();
-    }
-
     protected function sendResult(Request $request, Response $response, Model $model, EditorBehaviorAction $action): void {
         $error = $this->behaviour->onSubmit($model, $action);
 

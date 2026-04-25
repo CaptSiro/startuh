@@ -8,8 +8,10 @@ use components\Lumora\Editor\Editor;
 use core\App;
 use core\forms\Form;
 use core\route\Path;
+use core\RouteChasmEnvironment;
 use core\sideloader\importers\Css\Css;
 use core\sideloader\importers\Javascript\Javascript;
+use core\url\Url;
 use core\view\ContainerContent;
 
 class Frame extends ContainerContent {
@@ -49,5 +51,18 @@ class Frame extends ContainerContent {
             ->getDomain()
             ->createUrl(Path::from("/public/images/$image"))
             ->toString();
+    }
+
+    public function getProjectUrl(): ?Url {
+        $request = App::getInstance()
+            ->getRequest();
+
+        return $request->getDomain()->createUrl()
+            ->setQuery($request->getUrl()->getQuery());
+    }
+
+    public function getProjectName(): string {
+        return App::getEnvStatic()
+            ->get(RouteChasmEnvironment::ENV_PROJECT) ?? 'RouteChasm';
     }
 }

@@ -77,6 +77,9 @@ CREATE TABLE IF NOT EXISTS core_language (
     UNIQUE (`code`)
 ) ENGINE = InnoDB;
 
+INSERT INTO core_language (id_language, code, is_default)
+VALUES (1, 'en-US', 1);
+
 
 
 DROP TABLE IF EXISTS core_lexicon_translation_x_rule;
@@ -198,7 +201,7 @@ CREATE TABLE IF NOT EXISTS core_page (
     `id_page_status` INT NOT NULL,
     `created` DATETIME DEFAULT NOW(),
     `updated` DATETIME DEFAULT NOW(),
-    `publish` DATETIME NULL DEFAULT NOW(),
+    `publish` DATETIME NULL DEFAULT NULL,
     `remove` DATETIME NULL DEFAULT NULL,
     `priority` INT DEFAULT 0,
     PRIMARY KEY (`id_page`),
