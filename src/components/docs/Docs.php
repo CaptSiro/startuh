@@ -479,7 +479,7 @@ class Docs extends Router {
                     $file = realpath($file);
                     $language = $request->getLanguage();
 
-                    if (is_null($this->document($file, $language))) {
+                    if (is_null($doc = $this->document($file, $language))) {
                         $response->sendStatus(HttpCode::SE_SERVICE_UNAVAILABLE);
                     }
 

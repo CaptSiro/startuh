@@ -218,6 +218,8 @@ class ArticleEditor extends ContainerContent {
                     ArticleGenerationTone::fromOption($body->getStrict(self::NAME_TONE))
                 );
 
+                $tone = $body->getStrict(self::NAME_TONE);
+
                 $client = OpenAi::fromEnv();
                 $ai = $client->createRequest();
 

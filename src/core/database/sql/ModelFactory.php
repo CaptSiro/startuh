@@ -2,7 +2,6 @@
 
 namespace core\database\sql;
 
-use core\database\sql\query\Parameter;
 use core\database\sql\query\Query;
 use core\database\sql\query\SelectQuery;
 use core\database\sql\query\SqlQuery;
@@ -37,6 +36,7 @@ class ModelFactory {
 
 
 
+    protected array $cache = [];
 
     public function __construct(
         protected string $modelClass
@@ -150,21 +150,29 @@ class ModelFactory {
     }
 
     public function fromIdQuery(mixed $id, ?array $projection = null): SelectQuery {
-        $description = $this->getDescription();
-        $idColumnName = $description->getEscapedIdColumnName();
+        $idColumnName = $this->getDescription()
+            ->getEscapedIdColumnName();
 
         return $this->firstQuery(
             $projection,
-            where: new Query("$idColumnName = ?", [
-                new Parameter($id, $description->getIdColumn()->getType())
-            ])
+            where: Query::infer("$idColumnName = ?", $id)
         );
     }
 
-    public function fromId(mixed $id, ?array $projection = null): ?Model {
-        return $this->firstExecute(
+    public function fromId(mixed $id, ?array $projection = null, bool $cache = false): ?Model {
+        if (isset($this->cache[$id])) {
+            return $this->cache[$id];
+        }
+
+        $model = $this->firstExecute(
             $this->fromIdQuery($id, $projection)
         );
+
+        if ($cache) {
+            $this->cache[$id] = $model;
+        }
+
+        return $model;
     }
 
     public function allQuery(?array $projection = null, Query|string|null $where = null): SelectQuery {

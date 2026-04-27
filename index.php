@@ -1,6 +1,7 @@
 <?php
 
 use components\core\Admin\Home\AdminHome;
+use components\core\Search\Search;
 use components\docs\Docs;
 use components\Home\Home;
 use core\actions\Assets\Assets;
@@ -52,13 +53,12 @@ $router->bind(
     AdminRouter::getInstance(new AdminHome())
 );
 
+$router->bind('/search', Search::getInstance());
 $router->bind('/docs', Docs::getInstance());
 $router->bind('/fs', FileServer::getInstance());
 $router->bind('/import', SideLoader::getInstance()->initRouter($app));
 $router->expose('/public', (new Assets(__DIR__ .'/public'))
     ->setDirectoryPolicy(new ShowExplorerPolicy()));
-
-
 
 $router->use('/', new Home());
 $router->use('/extension', new Frame());

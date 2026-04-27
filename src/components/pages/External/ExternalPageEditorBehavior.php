@@ -17,11 +17,17 @@ use core\ResourceLoader;
 use core\view\View;
 use models\core\Page\ExternalPage;
 use models\core\Page\Page;
+use RuntimeException;
 
 class ExternalPageEditorBehavior implements EditorBehavior {
     use ResourceLoader, LexiconUnit;
 
     public const LEXICON_GROUP = 'editor.external-page';
+
+    public const NAME_PROMPT = 'prompt';
+    public const PROPERTY_WEBPAGE_HTML = 'html';
+    public const PROPERTY_WEBPAGE_CSS = 'css';
+    public const PROPERTY_WEBPAGE_JS = 'js';
 
 
 
@@ -54,6 +60,10 @@ class ExternalPageEditorBehavior implements EditorBehavior {
     }
 
     public function onSubmit(Model $model, EditorBehaviorAction $action): ?View {
+        $body = App::getInstance()
+            ->getRequest()
+            ->getBody();
+
         if (!($model instanceof Page)) {
             return new Message($this->tr('Provided model must be type of Page'));
         }
