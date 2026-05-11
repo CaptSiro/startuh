@@ -48,17 +48,17 @@ Pages::load();
 $app = App::getInstance();
 $router = $app->getMainRouter();
 
-$router->bind(
-    Admin::mount(new StaticMount('admin'), '/admin'),
-    AdminRouter::getInstance(new AdminHome())
-);
-
 $router->bind('/search', Search::getInstance());
 $router->bind('/docs', Docs::getInstance());
 $router->bind('/fs', FileServer::getInstance());
 $router->bind('/import', SideLoader::getInstance()->initRouter($app));
 $router->expose('/public', (new Assets(__DIR__ .'/public'))
     ->setDirectoryPolicy(new ShowExplorerPolicy()));
+
+$router->bind(
+    Admin::mount(new StaticMount('admin'), '/admin'),
+    AdminRouter::getInstance(new AdminHome())
+);
 
 $router->use('/', new Home());
 $router->use('/extension', new Frame());

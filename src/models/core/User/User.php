@@ -115,6 +115,8 @@ class User extends Model {
             self::logout();
         }
 
+        $this->leaveAllGroups();
+
         return parent::delete();
     }
 
@@ -202,6 +204,7 @@ class User extends Model {
         }
 
         $connection = static::getDescription()->getConnection();
+        $driver = $connection->getDriver();
 
         $sql = Sql::insert(self::TABLE_USERS_X_GROUPS)
             ->columns(['id_group', 'id_user']);
