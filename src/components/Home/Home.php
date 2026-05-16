@@ -7,6 +7,7 @@ use components\core\Menu\Menu;
 use components\core\WebPage\ContextAwareWebPage;
 use components\docs\Docs;
 use core\App;
+use core\route\Path;
 use core\RouteChasmEnvironment;
 use core\view\ContainerContent;
 
@@ -50,5 +51,12 @@ class Home extends ContainerContent {
     public function getProjectName(): ?string {
         return App::getEnvStatic()
             ->get(RouteChasmEnvironment::ENV_PROJECT) ?? 'RouteChasm';
+    }
+
+    public function getImage(string $name): string {
+        return App::getInstance()
+            ->getRequest()
+            ->getDomain()
+            ->createUrl(Path::from("/public/images/$name"));
     }
 }

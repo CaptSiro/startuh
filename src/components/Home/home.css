@@ -88,6 +88,13 @@
     grid-template-columns: 1fr 1fr;
     gap: calc(var(--gap) * 2);
     align-items: center;
+    padding: var(--gap);
+    border-radius: var(--border-radius);
+    background-color: var(--container-1);
+}
+
+.home-landing .feature:nth-child(odd) {
+    background-color: var(--container-2);
 }
 
 .home-landing .feature.reverse {
@@ -99,8 +106,13 @@
 }
 
 .home-landing .feature-card {
-    height: 200px;
-    background: var(--container-2);
+    height: 300px;
+}
+
+.home-landing .feature-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     border-radius: var(--border-radius);
 }
 
@@ -170,6 +182,16 @@
 .home-landing .button.large {
     padding: 14px 28px;
     font-size: 16px;
+}
+
+.gallery-image {
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.gallery-image:hover {
+    transform: scale(0.95);
+    opacity: 0.8;
 }
 
 @media (max-width: 900px) {

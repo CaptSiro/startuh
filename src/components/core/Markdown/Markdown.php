@@ -16,4 +16,9 @@ class Markdown {
         Javascript::import(self::getStaticResource('md-gallery.js'));
         Css::import(self::getStaticResource('markdown.css'));
     }
+
+    public static function importGallery(): void {
+        Javascript::import(self::getStaticResource('md-gallery.js'));
+        Css::import(self::getStaticResource('markdown.css'));
+    }
 }
